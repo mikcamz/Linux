@@ -1,36 +1,50 @@
-* **`kthread`** `: kernel thread - executing process in kernel space on behalf of the kernel itself, such as managing hardware, I/O operations, or performing background tasks.`  
+* **kthread** : kernel thread \- executing process in kernel space on behalf of the kernel itself, such as managing hardware, I/O operations, or performing background tasks.  
     
-* **`workqueue_subsystem/pool_workqueue_release`** `: ensures resources associated with a workqueue are properly released to prevent memory leaks.`  
+* **workqueue\_subsystem/pool\_workqueue\_release** : ensures resources associated with a workqueue are properly released to prevent memory leaks.  
     
-* **`workqueue_subsystem/kworker`** `: kernel worker - runs tasks like disk I/O, network packet handling, timers, or hardware driver requests. Features: Per-CPU Threads - helps distribute tasks, low priority Background Tasks, Dynamic Creation - created as needed depending on the workload`  
+* **workqueue\_subsystem/kworker** : kernel worker \- runs tasks like disk I/O, network packet handling, timers, or hardware driver requests. Features: Per-CPU Threads \- helps distribute tasks, low priority Background Tasks, Dynamic Creation \- created as needed depending on the workload  
     
-* **`RCU (Read-Copy-Update)`** `is a synchronization mechanism in the kernel. It allows readers to access data without locks while ensuring that writers can safely update it without interfering.`  
+* **RCU (Read-Copy-Update)** is a synchronization mechanism in the kernel. It allows readers to access data without locks while ensuring that writers can safely update it without interfering.  
     
-* **`RCU/rcu_tasks_kthread (traditional)`**`: handles grace periods for RCU operations involving tasks - ensure that all readers of a piece of data have completed before it can be safely updated or removed; When tasks (processes) are no longer referencing specific data, it cleans up and frees memory safely. It ensures efficient synchronization and clean-up in the kernel, allowing multiple processes to operate safely without locking.`  
+* **RCU/rcu\_tasks\_kthread (traditional)**: handles **grace periods** for RCU operations involving **tasks** \- ensure that all readers of a piece of data have completed before it can be safely updated or removed; When tasks (processes) are no longer referencing specific data, it cleans up and frees memory safely. It ensures efficient synchronization and clean-up in the kernel, allowing multiple processes to operate safely without locking.  
     
-* **`RCU/rcu_tasks_rude_kthread (RUDE)`**`: The "rude" ensures that the cleanup or synchronization happens aggressively, without waiting for other tasks to reach “quiescent state" - no longer referencing the data. Force the system to cleanup or update, preventing delays caused by uncooperative or long-running tasks.`  
+* **RCU/rcu\_tasks\_rude\_kthread (RUDE)**: The **"rude"** ensures that the cleanup or synchronization happens aggressively, without waiting for other tasks to reach “quiescent state" \- no longer referencing the data. Force the system to cleanup or update, preventing delays caused by uncooperative or long-running tasks.  
     
-* **`RCU/rcu_tasks_trace_kthread`** `: processes that pass through instrumented sections of the kernel, which are designed for debugging, monitoring, or profiling purposes. Or having complex entering/exiting kernel-mode may not trigger traditional quiescent state detection. This works similar to rcu_tasks_rude_kthread, forcing update or cleanup.`  
+* **RCU/rcu\_tasks\_trace\_kthread** : processes that pass through **instrumented sections** of the kernel, which are designed for debugging, monitoring, or profiling purposes. Or having complex entering/exiting kernel-mode may not trigger traditional quiescent state detection. This works similar to **rcu\_tasks\_rude\_kthread**, forcing update or cleanup.  
     
-* **`RCU/rcu_preempt`** `: preempted means to interrupt. handles interruption in environments where tasks can be interrupted or moved around, ensuring data updating safely, such as in real-time or preemptive kernels.`  
+* **RCU/rcu\_preempt** : **preempted** means to interrupt. handles interruption in environments where tasks can be interrupted or moved around, ensuring data updating safely, such as in real-time or preemptive kernels.  
     
-* **`ksoftirqd`** `: kernel soft interrupts (softirqs) in a deferred and controlled manner. Handles time-sensitive tasks in a deferred way, can wait until the CPU is less busy (e.g networking, disk I/O, and timer events). ksoftirqd is created for each CPU core (e.g., ksoftirqd/0 for CPU 0, ksoftirqd/1 for CPU 1), it processes pending softIRQs when the kernel detects that handling them in the interrupt context could overload the system or cause latency issues.`  
+* **ksoftirqd** : kernel soft interrupts (**softirqs**) in a deferred and controlled manner. Handles time-sensitive tasks in a deferred way, can wait until the CPU is less busy (e.g networking, disk I/O, and timer events). **ksoftirqd** is created for each CPU core (e.g., ksoftirqd/0 for CPU 0, ksoftirqd/1 for CPU 1), it processes pending softIRQs when the kernel detects that handling them in the interrupt context could overload the system or cause latency issues.  
     
-* **`migration`** `: move a task (or process) from one CPU to another. Manage workloads efficiently across the system's CPUs. Each CPU has a migration/X thread (where X is the CPU number).`  
+* **migration** : move a task (or process) from one CPU to another. Manage workloads efficiently across the system's CPUs. Each CPU has a **migration/X** thread (where X is the CPU number).  
     
-* **`idle_inject`** `: Force CPU to idle, used for thermal throttling and power management. idle_inject/X - idle specific cpu X.`  
+* **idle\_inject** : Force CPU to idle, used for thermal throttling and power management. **idle\_inject/X \-** idle specific cpu X.  
     
-* **`cpuhp`** `: cpu hot plug, manages the process of dynamically adding or removing CPUs in a running system.`  
+* **cpuhp** : cpu hot plug, manages the process of dynamically adding or removing CPUs in a running system.  
     
-* **`kdevtmpfs`** `: manages kernel_device_tmpfs temporary file system in memory. Devices will have a file created in /dev Eliminates the need for manual device file creation, which was required in earlier systems. Active during: boot, device hotplug/removal.`  
+* **kdevtmpfs** : manages kernel\_device\_tmpfs temporary file system in memory. Devices will have a file created in **/dev** Eliminates the need for manual device file creation, which was required in earlier systems. Active during: boot, device hotplug/removal.  
     
-* **`kauditd`** `: handling audit events generated by the Linux Audit Subsystem. This subsystem is used to track and log system events for security auditing (IMPORTANT). Things it logs: file access or modifications; changes to system configurations; user logins, logouts, and privilege escalations; system calls made by processes.`  
+* **kauditd** : handling audit events generated by the **Linux Audit Subsystem**. This subsystem is used to track and log system events for security auditing (IMPORTANT). Things it logs: file access or modifications; changes to system configurations; user logins, logouts, and privilege escalations; system calls made by processes.  
     
-* **`khungtaskd`** `: kernel process detect and handle "hung" tasks (default timeout: 120s). Provide: Process ID (PID), Stack trace, Task state.`  
+* **khungtaskd** : kernel process detect and handle "hung" tasks (default timeout: 120s). Provide: Process ID (PID), Stack trace, Task state.  
     
-* **`oom_reaper`** `: Out_of_memory_reaper - select and terminate process, freeing memory and preventing a complete system hang. Reclaiming memory from a process before it fully terminates => don’t have to wait for the process to terminate => speed.`  
+* **oom\_reaper** : Out\_of\_memory\_reaper \- select and terminate process, freeing memory and preventing a complete system hang. *Reclaiming memory from a process **before it fully terminates** \=\> don’t have to wait for the process to terminate \=\> speed.*  
     
-  ***`__Memory paging__`** `: It divides the physical memory (RAM) and the virtual memory (used by processes) into fixed-size chunks called pages. Paging helps in isolating processes, enabling memory protection, and supporting virtual memory. Page size is commonly 4KB or smaller depending on the system.`*  
-* **`kcompactd0`** `:  responsible for memory compaction, a process that rearranges physical memory to make larger contiguous blocks of free memory available (essentially copying them away to make continuous free memory space). Memory fragmentation occurs over time as memory allocations and deallocations create scattered free blocks.`  
-* **`ksmd`** `:`   
-  
+  ***|\_Memory paging\_|** : Memory paging divides virtual memory into fixed-size pages (often 4KB), maps them to physical memory page frames via a page table, and uses the MMU to translate addresses, enabling efficient memory use, process isolation, and support for virtual memory.*
+
+* **kcompactd0** :  responsible for **memory compaction**, a process that rearranges physical memory to make larger contiguous blocks of free memory available (essentially copying them away to make continuous free memory space). **Memory fragmentation** occurs over time as memory allocations and deallocations create scattered free blocks.  
+    
+* **khugepaged** : managing **Transparent Huge Pages (THP), periodically** scan and collapse smaller memory pages (typically 4 KB) into huge pages (usually 2 MB) \=\> less lookup to page tables, smaller page tables  
+    
+  ***kcompactd0** creates contiguous memory blocks that **khugepaged** can then use for huge page allocation.*  
+    
+* **ksmd** : Kernel\_Samepage\_Merging\_Daemon \- Merging multiple identical memory pages. **ksmd** replaces the duplicate pages with a **read-only-single shared page** and maps into the virtual address space of all processes using it. **Copy-on-Write (COW)** \- when a process write to the memory page, **ksmd** creates a private copy for that process only, other processes continue to use the shared page.  
+     
+* **irq/X** : Interrupt Request (IRQ) kernel threads \- **Interrupt Requests (IRQs)** are signals sent by hardware devices to CPU, CPU pause to process IRQs. Modern irq handles interrupts as request, making the initial “hard IRQ” phase quick, offloading time-consuming/complex work to the IRQ/x thread. \=\> More system responsiveness and avoid long delays.  
+    
+* **watchdogd** : *watchdog subsystem \-* mechanism that monitors the health and responsiveness of the system. **watchdog timer** \- hardware or software mechanism that monitors system activity. If system fails to reply to a “kick” or “ping” made by watchdog, it triggers corrective action (typically a reboot). If watchdog itself fails to kick the timer, the watchdog mechanism triggers a system reset.  
+    
+* **ksgxd** : **Intel Software Guard Extensions (SGX: configure enclave size in BIOS)** \- allows programs to create **secure enclaves** in memory, protecting sensitive data and code from being accessed or tampered with by other software, including the operating system and hypervisor.
+
+
+
