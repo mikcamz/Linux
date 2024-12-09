@@ -1,2 +1,2 @@
 # Linux
-Cheatsheet for linux
+My cheatsheet for linux - the whole of it.
